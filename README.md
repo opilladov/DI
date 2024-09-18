@@ -2,12 +2,11 @@
 <h1 align="center"> Spotify </h1>
 
 ![Spotify_Logo](https://github.com/user-attachments/assets/16a71a22-fd40-4c86-829f-430caf54a423)
-
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/usuario/proyecto)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/usuario/proyecto/main.yml)
-![GitHub last commit](https://img.shields.io/github/last-commit/usuario/proyecto)
-![GitHub contributors](https://img.shields.io/github/contributors/usuario/proyecto)
-![GitHub license](https://img.shields.io/github/license/usuario/proyecto)
+![Build Status](https://img.shields.io/github/workflow/status/<usuario>/<repositorio>/Build)
+![License](https://img.shields.io/github/license/<usuario>/<repositorio>)
+![Version](https://img.shields.io/github/v/release/<usuario>/<repositorio>)
+![Spotify](https://img.shields.io/badge/Spotify-Integrado-brightgreen)
+![Project Status](https://img.shields.io/badge/Project%20Status-Active-brightgreen)
 
 ## Índice
 
