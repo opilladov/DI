@@ -7,12 +7,12 @@ class Heroe:
         self.salud_maxima = 100
         self.defensa_temporal = 0
 
-    def atacar(self, heroe):
+    def atacar(self, enemigo):
         print(f"Heroe ataca a {enemigo.nombre}")
         dano = self.ataque - self.defensa
-        if dano > 0
+        if dano > 0:
             print(f"El enemigo {enemigo.nombre} ha recibido {dano} puntos de daño")
-        else
+        else:
             print(f"El eneimgo a bloqueado el ataque")
 
     def curarse(self):

@@ -8,14 +8,14 @@ class Tesoro:
         beneficio = random.choice(self.beneficios)
         print(f"El heroe ha encontrado un beneficio {beneficio}")
 
-        if beneficio == "aumento_ataque"
+        if beneficio == "aumento_ataque":
             heroe.ataque = heroe.ataque + 5
             print(f"El ataque de {heroe.nombre} aumenta a {heroe.ataque}")
 
-        elif beneficio == "aumento_defensa"
+        elif beneficio == "aumento_defensa":
             heroe.defensa = heroe.defensa + 5
             print(f"La defensa del {heroe.nombre} aumenta a {heroe.defensa}")
 
-        else
+        else:
             heroe.salud = heroe.salud_maxima
             print(f"La salud de {heroe.nombre} ha sido restaurada a {heroe.salud}")
