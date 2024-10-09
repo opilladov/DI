@@ -6,9 +6,9 @@ from Tesoro import Tesoro
 class Mazmorra:
     def __init__(self, heroe):
         self.heroe = heroe
-        self.monstruos = [Monstruo("Dragon", 2, 4, 10),
-                          Monstruo("Esbirro", 3, 5, 15),
-                          Monstruo("Gigante", 4, 6, 20)]
+        self.monstruos = [Monstruo("Dragon", 8, 3, 30),
+                          Monstruo("Esbirro", 5, 2, 20),
+                          Monstruo("Gigante", 12, 4, 40)]
         self.tesoro = Tesoro()
 
     def jugar(self):

@@ -1,7 +1,7 @@
 class Heroe:
     def __init__(self, nombre):
         self.nombre = nombre
-        self.ataque = 20
+        self.ataque = 10
         self.defensa = 5
         self.salud = 100
         self.salud_maxima = 100
