@@ -1,15 +1,20 @@
+import random
+
 from Monstruo import Monstruo
 from Tesoro import Tesoro
 
 class Mazmorra:
     def __init__(self, heroe):
         self.heroe = heroe
-        self.monstruos = [Monstruo("Dragon", 12, 4, 80), Monstruo("Esbirro", 5, 10, 30), Monstruo("Gigante", 15, 3, 50)]
+        self.monstruos = [Monstruo("Dragon", 2, 4, 10),
+                          Monstruo("Esbirro", 3, 5, 15),
+                          Monstruo("Gigante", 4, 6, 20)]
         self.tesoro = Tesoro()
 
     def jugar(self):
         print("Heroe entra en la mazmorra")
-        for monstruo in self.monstruos:
+        while len(self.monstruos) > 0:
+            monstruo = random.choice(self.monstruos)
             print(f"Te has encontrado con {monstruo.nombre}")
             self.enfrentar(monstruo)
             if not self.heroe.esta_vivo():

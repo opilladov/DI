@@ -1,4 +1,4 @@
-from random import random
+import random
 
 class Tesoro:
     def __init__(self):
