@@ -1,5 +1,4 @@
 import tkinter as tk
-from cProfile import label
 from tkinter import messagebox
 
 ventana = tk.Tk()
