@@ -1,7 +1,7 @@
 import tkinter as tk
 
 ventana = tk.Tk()
-ventana.title("Ventana de frame") 
+ventana.title("Ventana de frame")
 ventana.geometry("600x600")
 
 # Frame inferior

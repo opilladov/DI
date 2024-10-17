@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 ventana = tk.Tk()
-ventana.title("Ventana de menu")
+ventana.title("Ventana de menu") 
 ventana.geometry("600x600")
 
 def nueva():
