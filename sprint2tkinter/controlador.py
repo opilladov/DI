@@ -53,7 +53,7 @@ class Controlador:
         threading.Thread(target=self.descargar_imagen_github).start()
 
     def descargar_imagen_github(self):
-        url = "https://github.com/opilladov/DI/blob/main/sprint2tkinter/imagen1.png"
+        url = "https://raw.githubusercontent.com/opilladov/DI/refs/heads/main/sprint2tkinter/ejemplo1.png"
         try:
             respuesta = requests.get(url)
             if respuesta.status_code == 200:
