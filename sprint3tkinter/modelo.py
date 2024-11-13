@@ -19,14 +19,14 @@ class GameModel:
         threading.Thread(target=self._load_images).start()
 
     def _generate_board(self):
-        num_pairs = {"facil": 8, "medio": 12, "dificil": 18}[self.difficulty]
+        num_pairs = {"facil": 8, "medio": 18, "dificil": 32}[self.difficulty]
         images = list(range(num_pairs)) * 2
         random.shuffle(images)
         return images
 
     def _get_image_urls(self):
-        base_url = ""
-        return [f"{base_url}{i}.jpg" for i in range(max(self.board) + 1)]
+        base_url = "https://raw.githubusercontent.com/opilladov/DI/refs/heads/main/sprint3tkinter/"
+        return [f"{base_url}{i+1}.jpg" for i in range(max(self.board) + 1)]
 
     def _load_images(self):
         self.loaded_images = {}
