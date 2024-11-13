@@ -26,7 +26,7 @@ class GameModel:
 
     def _get_image_urls(self):
         base_url = "https://raw.githubusercontent.com/opilladov/DI/refs/heads/main/sprint3tkinter/"
-        return [f"{base_url}{i+1}.jpg" for i in range(max(self.board) + 1)]
+        return [f"{base_url}{i}.jpg" for i in range(max(self.board) + 1)]
 
     def _load_images(self):
         self.loaded_images = {}
