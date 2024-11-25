@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CatalogActivity extends AppCompatActivity {
 
@@ -17,6 +21,8 @@ public class CatalogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_catalog);
 
         Button navigateButton = findViewById(R.id.navegarDetalle);
+
+        setupNavigation();
 
         navigateButton.setOnClickListener(view -> {
             Intent intent = new Intent(CatalogActivity.this, DetailActivity.class);
@@ -28,5 +34,14 @@ public class CatalogActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void setupNavigation(){
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigarion);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_hostfragment);
+        NavigationUI.setupWithNavController(
+                bottomNavigationView,
+                navHostFragment.getNavController()
+        );
     }
 }

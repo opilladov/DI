@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-
     implementation libs.navigation.ui
     implementation libs.navigation.fragment
     implementation libs.appcompat
