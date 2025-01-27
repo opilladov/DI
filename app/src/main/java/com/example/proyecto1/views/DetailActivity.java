@@ -23,12 +23,10 @@ public class DetailActivity extends AppCompatActivity {
         tvDetailDescription = findViewById(R.id.tvDetailDescription);
         ivDetailImage = findViewById(R.id.ivDetailImage);
 
-        // Obtener datos del intent
         String title = getIntent().getStringExtra("title");
         String description = getIntent().getStringExtra("description");
         String imageUrl = getIntent().getStringExtra("imageUrl");
 
-        // Configurar los datos en la vista
         if (title != null) {
             tvDetailTitle.setText(title);
         }

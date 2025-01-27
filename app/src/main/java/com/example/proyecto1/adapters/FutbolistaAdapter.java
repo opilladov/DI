@@ -67,4 +67,9 @@ public class FutbolistaAdapter extends RecyclerView.Adapter<FutbolistaAdapter.Vi
             itemView.setOnClickListener(v -> listener.onItemClick(futbolista));
         }
     }
+
+    public void updateData(List<Futbolista> newFutbolistaList) {
+        this.futbolistaList = newFutbolistaList;
+        notifyDataSetChanged();
+    }
 }
