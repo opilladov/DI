@@ -7,23 +7,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.proyecto1.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.proyecto1.viewmodels.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private Button btnLogin, btnGoToRegister;
-    private FirebaseAuth mAuth;
+    private LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         etEmail = findViewById(R.id.etLoginEmail);
         etPassword = findViewById(R.id.etLoginPassword);
@@ -41,21 +41,15 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(MainActivity.this, task -> {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(MainActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, DashboardActivity.class));
-                                finish();
-                            } else {
-                                String errorMessage = "Error desconocido";
-                                if (task.getException() != null) {
-                                    errorMessage = task.getException().getMessage();
-                                }
-                                Toast.makeText(MainActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                loginViewModel.login(email, password).observe(MainActivity.this, isSuccessful -> {
+                    if (isSuccessful) {
+                        Toast.makeText(MainActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Error en el inicio de sesión", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

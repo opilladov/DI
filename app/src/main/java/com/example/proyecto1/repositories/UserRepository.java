@@ -18,6 +18,15 @@ public class UserRepository {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
+    public LiveData<Boolean> loginUser(String email, String password) {
+        MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> loginResult.setValue(task.isSuccessful()));
+
+        return loginResult;
+    }
+
     public LiveData<Boolean> registerUser(String email, String password, User userInfo) {
         MutableLiveData<Boolean> registrationResult = new MutableLiveData<>();
 
