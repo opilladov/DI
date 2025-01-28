@@ -1,6 +1,7 @@
 package com.example.proyecto1.views;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView tvDetailTitle, tvDetailDescription;
     private ImageView ivDetailImage;
+    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
         tvDetailTitle = findViewById(R.id.tvDetailTitle);
         tvDetailDescription = findViewById(R.id.tvDetailDescription);
         ivDetailImage = findViewById(R.id.ivDetailImage);
+        btnBack = findViewById(R.id.btnBack);
 
         String title = getIntent().getStringExtra("title");
         String description = getIntent().getStringExtra("description");
@@ -38,5 +41,9 @@ public class DetailActivity extends AppCompatActivity {
                     .load(imageUrl)
                     .into(ivDetailImage);
         }
+
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 }
