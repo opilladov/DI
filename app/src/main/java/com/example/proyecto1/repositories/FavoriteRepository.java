@@ -60,22 +60,8 @@ public class FavoriteRepository {
         });
     }
 
-    public void eliminarFavorito(String titulo, final OnFavoritoEliminadoListener listener) {
-        userFavoritesRef.child(titulo).removeValue().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                listener.onFavoritoEliminado(true);
-            } else {
-                listener.onFavoritoEliminado(false);
-            }
-        });
-    }
-
     public interface OnFavoritosCargadosListener {
         void onFavoritosCargados(List<Futbolista> favoritosList);
         void onErrorCargandoFavoritos(String error);
-    }
-
-    public interface OnFavoritoEliminadoListener {
-        void onFavoritoEliminado(boolean success);
     }
 }
