@@ -3,18 +3,15 @@ package com.example.proyecto1.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.proyecto1.R;
 import com.example.proyecto1.adapters.FutbolistaAdapter;
 import com.example.proyecto1.models.Futbolista;
 import com.example.proyecto1.viewmodels.DashboardViewModel;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -38,6 +35,8 @@ public class DashboardActivity extends AppCompatActivity {
         observeViewModel();
 
         findViewById(R.id.btnLogout).setOnClickListener(v -> logout());
+
+        findViewById(R.id.btnFavorites).setOnClickListener(v -> openFavoritesActivity());
     }
 
     private void observeViewModel() {
@@ -55,6 +54,12 @@ public class DashboardActivity extends AppCompatActivity {
         intent.putExtra("title", futbolista.getTitulo());
         intent.putExtra("description", futbolista.getDescripcion());
         intent.putExtra("imageUrl", futbolista.getUrl());
+        intent.putExtra("futbolistaId", futbolista.getFutbolistaId());
+        startActivity(intent);
+    }
+
+    private void openFavoritesActivity() {
+        Intent intent = new Intent(this, FavouritesActivity.class);
         startActivity(intent);
     }
 

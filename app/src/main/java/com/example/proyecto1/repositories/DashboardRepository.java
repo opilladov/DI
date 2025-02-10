@@ -28,6 +28,7 @@ public class DashboardRepository {
                 List<Futbolista> futbolistaList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Futbolista futbolista = snapshot.getValue(Futbolista.class);
+                    futbolista.setFutbolistaId(snapshot.getKey());
                     futbolistaList.add(futbolista);
                 }
                 futbolistaLiveData.postValue(futbolistaList);

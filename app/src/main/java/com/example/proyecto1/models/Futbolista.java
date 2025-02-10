@@ -5,6 +5,15 @@ public class Futbolista {
     private String titulo;
     private String descripcion;
     private String url;
+    private String futbolistaId;
+
+    public String getFutbolistaId() {
+        return futbolistaId;
+    }
+
+    public void setFutbolistaId(String futbolistaId) {
+        this.futbolistaId = futbolistaId;
+    }
 
     public Futbolista() {
 

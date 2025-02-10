@@ -17,10 +17,13 @@
             android:exported="false" />
         <activity
             android:name=".views.DashboardActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".views.RegistroActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.FavouritesActivity"
+            android:exported="false"/>
         <activity
             android:name=".views.MainActivity"
             android:exported="true">
