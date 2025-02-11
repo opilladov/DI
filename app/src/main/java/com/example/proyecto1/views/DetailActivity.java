@@ -96,9 +96,9 @@ public class DetailActivity extends AppCompatActivity {
     private void updateFavoriteButton() {
         runOnUiThread(() -> {
             if (isFavorite) {
-                fabFavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                fabFavorite.setImageResource(R.drawable.star_24);
             } else {
-                fabFavorite.setImageResource(android.R.drawable.btn_star_big_off);
+                fabFavorite.setImageResource(R.drawable.star_border_24);
             }
         });
     }
