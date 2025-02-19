@@ -1,60 +1,78 @@
 package com.example.proyecto1.views;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.proyecto1.R;
-import com.example.proyecto1.viewmodels.LoginViewModel;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText etEmail, etPassword;
-    private Button btnLogin, btnGoToRegister;
-    private LoginViewModel loginViewModel;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        NavigationView navigationView = findViewById(R.id.navigationView);
 
-        etEmail = findViewById(R.id.etLoginEmail);
-        etPassword = findViewById(R.id.etLoginPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnGoToRegister = findViewById(R.id.btnGoToRegister);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar();
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new DashboardFragment())
+                    .commit();
+        }
 
-                if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        navigationView.setNavigationItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
 
-                loginViewModel.login(email, password).observe(MainActivity.this, isSuccessful -> {
-                    if (isSuccessful) {
-                        Toast.makeText(MainActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, DashboardActivity.class));
-                        finish();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Error en el inicio de sesión", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            if (item.getItemId() == R.id.nav_dashboard) {
+                selectedFragment = new DashboardFragment();
+            } else if (item.getItemId() == R.id.nav_favourites) {
+                selectedFragment = new FavouritesFragment();
+            } else if (item.getItemId() == R.id.nav_profile) {
+                selectedFragment = new ProfileFragment();
             }
-        });
 
-        btnGoToRegister.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, RegistroActivity.class));
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, selectedFragment)
+                        .commit();
+            }
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.DashboardActivity">
+    tools:context=".views.DashboardFragment">
 
     <LinearLayout
         android:id="@+id/buttonContainer"
@@ -17,28 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/btnFavorites"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Favoritos" />
-
-        <Button
-            android:id="@+id/btnThemeToggle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Modo Oscuro" />
-
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cerrar Sesión"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <ImageView

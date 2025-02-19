@@ -1,14 +1,17 @@
 package com.example.proyecto1.views;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,31 +22,33 @@ import com.example.proyecto1.repositories.FavoriteRepository;
 
 import java.util.List;
 
-public class FavouritesActivity extends AppCompatActivity {
+public class FavouritesFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FavoritesAdapter adapter;
     private ProgressBar progressBar;
     private TextView tvNoFavorites;
-    private Button btnBack;
     private FavoriteRepository favoriteRepository;
 
+    public FavouritesFragment() {
+
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourites);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
-        recyclerView = findViewById(R.id.recyclerViewFavorites);
-        progressBar = findViewById(R.id.progressBar);
-        tvNoFavorites = findViewById(R.id.tvNoFavorites);
-        btnBack = findViewById(R.id.btnBack);
+        recyclerView = view.findViewById(R.id.recyclerViewFavorites);
+        progressBar = view.findViewById(R.id.progressBar);
+        tvNoFavorites = view.findViewById(R.id.tvNoFavorites);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         favoriteRepository = new FavoriteRepository();
         cargarFavoritos();
 
-        btnBack.setOnClickListener(v -> finish());
+        return view;
     }
 
     private void cargarFavoritos() {
@@ -55,14 +60,14 @@ public class FavouritesActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 tvNoFavorites.setVisibility(favoritosList.isEmpty() ? View.VISIBLE : View.GONE);
 
-                adapter = new FavoritesAdapter(favoritosList, FavouritesActivity.this);
+                adapter = new FavoritesAdapter(favoritosList, requireContext());
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onErrorCargandoFavoritos(String error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(FavouritesActivity.this, "Error al cargar los favoritos: " + error, Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "Error al cargar los favoritos: " + error, Toast.LENGTH_LONG).show();
             }
         });
     }

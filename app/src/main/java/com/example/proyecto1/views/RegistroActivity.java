@@ -52,7 +52,7 @@ public class RegistroActivity extends AppCompatActivity {
                         .observe(RegistroActivity.this, success -> {
                             if (success) {
                                 Toast.makeText(RegistroActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(RegistroActivity.this, MainActivity.class));
+                                startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
                                 finish();
                             }
                         });

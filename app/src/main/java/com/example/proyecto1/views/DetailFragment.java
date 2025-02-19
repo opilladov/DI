@@ -1,12 +1,18 @@
 package com.example.proyecto1.views;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.proyecto1.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,10 +20,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailFragment extends Fragment {
 
     private TextView tvDetailTitle, tvDetailDescription;
     private ImageView ivDetailImage;
@@ -30,27 +37,26 @@ public class DetailActivity extends AppCompatActivity {
     private boolean isFavorite = false;
     private List<String> favoritosList = new ArrayList<>();
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        tvDetailTitle = findViewById(R.id.tvDetailTitle);
-        tvDetailDescription = findViewById(R.id.tvDetailDescription);
-        ivDetailImage = findViewById(R.id.ivDetailImage);
-        btnBack = findViewById(R.id.btnBack);
-        fabFavorite = findViewById(R.id.fabFavorite);
+        tvDetailTitle = view.findViewById(R.id.tvDetailTitle);
+        tvDetailDescription = view.findViewById(R.id.tvDetailDescription);
+        ivDetailImage = view.findViewById(R.id.ivDetailImage);
+        fabFavorite = view.findViewById(R.id.fabFavorite);
 
-        String title = getIntent().getStringExtra("title");
-        String description = getIntent().getStringExtra("description");
-        String imageUrl = getIntent().getStringExtra("imageUrl");
-        futbolistaId = getIntent().getStringExtra("futbolistaId");
+        if (getArguments() != null) {
+            String title = getArguments().getString("title");
+            String description = getArguments().getString("description");
+            String imageUrl = getArguments().getString("imageUrl");
+            futbolistaId = getArguments().getString("futbolistaId");
 
-        if (title != null) tvDetailTitle.setText(title);
-        if (description != null) tvDetailDescription.setText(description);
-        if (imageUrl != null) Picasso.with(this).load(imageUrl).into(ivDetailImage);
-
-        btnBack.setOnClickListener(v -> finish());
+            if (title != null) tvDetailTitle.setText(title);
+            if (description != null) tvDetailDescription.setText(description);
+            if (imageUrl != null) Picasso.with(getContext()).load(imageUrl).into(ivDetailImage);
+        }
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userFavoritesRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId).child("favoritos");
@@ -58,6 +64,8 @@ public class DetailActivity extends AppCompatActivity {
         checkIfFavorite();
 
         fabFavorite.setOnClickListener(v -> toggleFavorite());
+
+        return view;
     }
 
     private void checkIfFavorite() {
@@ -88,18 +96,20 @@ public class DetailActivity extends AppCompatActivity {
                 isFavorite = !isFavorite;
                 updateFavoriteButton();
             } else {
-                Toast.makeText(DetailActivity.this, "Error al actualizar favorito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error al actualizar favorito", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void updateFavoriteButton() {
-        runOnUiThread(() -> {
-            if (isFavorite) {
-                fabFavorite.setImageResource(R.drawable.star_24);
-            } else {
-                fabFavorite.setImageResource(R.drawable.star_border_24);
-            }
-        });
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                if (isFavorite) {
+                    fabFavorite.setImageResource(R.drawable.star_24);
+                } else {
+                    fabFavorite.setImageResource(R.drawable.star_border_24);
+                }
+            });
+        }
     }
 }

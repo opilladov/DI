@@ -3,40 +3,47 @@ package com.example.proyecto1.views;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.proyecto1.R;
 import com.example.proyecto1.adapters.FutbolistaAdapter;
 import com.example.proyecto1.models.Futbolista;
 import com.example.proyecto1.viewmodels.DashboardViewModel;
 import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FutbolistaAdapter adapter;
     private DashboardViewModel viewModel;
-    private Button btnThemeToggle;
     private SharedPreferences sharedPreferences;
     private boolean isDarkMode;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        sharedPreferences = requireActivity().getSharedPreferences("AppPrefs", requireContext().MODE_PRIVATE);
         isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
         setAppTheme(isDarkMode);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new FutbolistaAdapter(new ArrayList<>(), this::openDetailActivity);
         recyclerView.setAdapter(adapter);
@@ -44,26 +51,21 @@ public class DashboardActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
         observeViewModel();
 
-        findViewById(R.id.btnLogout).setOnClickListener(v -> logout());
-        findViewById(R.id.btnFavorites).setOnClickListener(v -> openFavoritesActivity());
-
-        btnThemeToggle = findViewById(R.id.btnThemeToggle);
-        btnThemeToggle.setOnClickListener(v -> toggleTheme());
-        updateButtonText();
+        return view;
     }
 
     private void observeViewModel() {
-        viewModel.getFutbolistas().observe(this, futbolistaList -> {
+        viewModel.getFutbolistas().observe(getViewLifecycleOwner(), futbolistaList -> {
             if (futbolistaList != null) {
                 adapter.updateData(futbolistaList);
             } else {
-                Toast.makeText(this, "Error al cargar datos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error al cargar datos", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void openDetailActivity(Futbolista futbolista) {
-        Intent intent = new Intent(this, DetailActivity.class);
+        Intent intent = new Intent(requireContext(), DetailFragment.class);
         intent.putExtra("title", futbolista.getTitulo());
         intent.putExtra("description", futbolista.getDescripcion());
         intent.putExtra("imageUrl", futbolista.getUrl());
@@ -72,14 +74,14 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void openFavoritesActivity() {
-        Intent intent = new Intent(this, FavouritesActivity.class);
+        Intent intent = new Intent(requireContext(), FavouritesFragment.class);
         startActivity(intent);
     }
 
     private void logout() {
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        startActivity(new Intent(requireContext(), LoginActivity.class));
+        requireActivity().finish();
     }
 
     private void toggleTheme() {
@@ -88,7 +90,7 @@ public class DashboardActivity extends AppCompatActivity {
         editor.putBoolean("isDarkMode", isDarkMode);
         editor.apply();
         setAppTheme(isDarkMode);
-        recreate();
+        requireActivity().recreate();
     }
 
     private void setAppTheme(boolean darkMode) {
@@ -97,9 +99,5 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-    }
-
-    private void updateButtonText() {
-        btnThemeToggle.setText(isDarkMode ? "Modo Claro" : "Modo Oscuro");
     }
 }
