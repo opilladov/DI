@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new FavouritesFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
+            } else if (item.getItemId() == R.id.nav_logout) {
+                selectedFragment = new LogoutFragment();
             }
 
             if (selectedFragment != null) {
