@@ -1,7 +1,7 @@
 package com.example.proyecto1.views;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new ProfileFragment();
             } else if (item.getItemId() == R.id.nav_logout) {
                 selectedFragment = new LogoutFragment();
+            } else if (item.getItemId() == R.id.nav_random) {
+                selectedFragment = new AzarFragment();
             }
 
             // Si se seleccionó un fragmento válido, reemplazar el fragmento actual

@@ -19,4 +19,9 @@
         android:id="@+id/nav_logout"
         android:title="Cerrar Sesión"
         android:icon="@drawable/logout_24" />
+
+    <item
+        android:id="@+id/nav_random"
+        android:title="Futbolista Aleatorio"
+        android:icon="@drawable/random_24" />
 </menu>
