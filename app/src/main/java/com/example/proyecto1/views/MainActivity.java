@@ -20,24 +20,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Inicializar DrawerLayout
         drawerLayout = findViewById(R.id.drawerLayout);
+
+        // Inicializar NavigationView, que es la vista del menú lateral
         NavigationView navigationView = findViewById(R.id.navigationView);
 
+        // Configurar el ActionBarDrawerToggle para mostrar y ocultar el menú lateral
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        getSupportActionBar();
+        toggle.syncState(); // Sincronizar el estado del DrawerToggle con la acción del menú
+        getSupportActionBar(); // Mostrar la ActionBar
 
+        // Verificar si es la primera vez que se crea la actividad o si es una rotación de pantalla
         if (savedInstanceState == null) {
+            // Si no hay estado guardado, cargar el fragmento por defecto (DashboardFragment)
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new DashboardFragment())
                     .commit();
         }
 
+        // Establecer el Listener para los elementos del menú de navegación
         navigationView.setNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
+            // Dependiendo del item seleccionado, se muestra el fragment correspondiente
             if (item.getItemId() == R.id.nav_dashboard) {
                 selectedFragment = new DashboardFragment();
             } else if (item.getItemId() == R.id.nav_favourites) {
@@ -48,19 +56,23 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new LogoutFragment();
             }
 
+            // Si se seleccionó un fragmento válido, reemplazar el fragmento actual
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, selectedFragment)
                         .commit();
             }
 
+            // Cerrar el drawer una vez se seleccione un ítem
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
     }
 
+    // Método para manejar la navegación hacia atrás en la barra de navegación
     @Override
     public boolean onSupportNavigateUp() {
+        // Si el drawer está abierto, cerrarlo, si no, abrirlo
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -69,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    // Manejar el botón de retroceso
     @Override
     public void onBackPressed() {
+        // Si el drawer está abierto, cerrarlo, si no, ejecutar el comportamiento normal de back press
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
